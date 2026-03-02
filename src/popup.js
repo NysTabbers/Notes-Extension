@@ -1,4 +1,3 @@
-// utility functions for notes storage
 function loadNotes() {
   try {
     return JSON.parse(localStorage.getItem('notes') || '[]');
@@ -12,7 +11,6 @@ function saveNotes(notes) {
   localStorage.setItem('notes', JSON.stringify(notes));
 }
 
-// settings helpers
 function getAutoLinkSetting() {
   return localStorage.getItem('autoLink') !== 'false';
 }
@@ -21,14 +19,12 @@ function setAutoLinkSetting(value) {
   localStorage.setItem('autoLink', value);
 }
 
-// get current tab's URL
 function getCurrentTabUrl(callback) {
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
     callback(tabs[0]?.url || '');
   });
 }
 
-// helpers for random appearance
 function randomColor() {
   const colors = ['#fffa65', '#ffd3b4', '#baffc9', '#ffb3ba', '#bde0fe'];
   return colors[Math.floor(Math.random() * colors.length)];
@@ -45,7 +41,6 @@ function showHome() {
     content.innerHTML = '<p>No notes yet. Click the + button to add one.</p>';
     return;
   }
-  // existing notes-container styling may still apply
   const notesContainer = document.createElement('div');
   notesContainer.className = 'notes-container';
   notes.forEach((note, idx) => {
@@ -70,8 +65,7 @@ function showNewNote() {
     <textarea id="note-text" rows="6" class="note-textarea"></textarea>
     <button id="save-note">Save</button>
   `;
-  
-  // auto-populate URL if setting is on
+
   if (getAutoLinkSetting()) {
     getCurrentTabUrl((url) => {
       const urlField = document.getElementById('note-url');
@@ -124,7 +118,6 @@ function showSettings() {
   });
 }
 
-// helper for showing individual note
 function showNoteAt(index) {
   const notes = loadNotes();
   const note = notes[index];
@@ -139,7 +132,6 @@ function showNoteAt(index) {
   document.getElementById('back-home').addEventListener('click', showHome);
 }
 
-// wire up buttons
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('home-button').addEventListener('click', showHome);
   document.getElementById('make-new-notes').addEventListener('click', showNewNote);

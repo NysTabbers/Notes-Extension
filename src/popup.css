@@ -1,4 +1,3 @@
-/* Post-it theme styles */
 body {
   width: 340px;
   min-height: 400px;
@@ -14,6 +13,7 @@ h1.title, h2, h3 {
 }
 
 button {
+  margin-right: 20px;
   padding: 8px 12px;
   cursor: pointer;
   background-color: #ffcc33;
