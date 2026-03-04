@@ -1,6 +1,12 @@
 # Notes Extension
 
-Notes extension is a simple extension to keep notes.
+A lightweight browser extension to quickly create and organize notes while browsing.
+
+## Features
+
+- Create notes
+- Automatically save page links
+- Minimal interface for easy access
 
 ## How to install
 
