@@ -2,16 +2,76 @@
 <html>
 
 <head>
-  <title>Test Extension</title>
+  <title>Notes Extension</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
   <div class="container" id="container">
     <h1 class="title" id="title">My Notes</h1>
-    <div class="note-content" id="note-content">
+
+    <div id="home-view">
+      <div class="note-content" id="note-content"></div>
+    </div>
+
+    <div id="note-detail-view" class="note-detail-card hidden">
+      <a id="detail-url" class="note-detail-url" target="_blank"></a>
+      <p id="detail-text" class="note-detail-text"></p>
+      <button id="detail-back" class="back-button">Back</button>
+      <button id="detail-edit" class="edit-button">Edit</button>
+      <button id="detail-delete" class="delete-button">Delete</button>
+    </div>
+
+    <div id="confirm-delete" class="confirm-delete hidden">
+      <p>Are you sure you want to delete this note?</p>
+      <button id="confirm-delete-btn">Yes, delete</button>
+      <button id="cancel-delete-btn">No, keep it</button>
+    </div>
+
+    <div id="confirm-overlay" class="confirm-overlay hidden"></div>
+
+    <div id="confirm-clear-all" class="confirm-clear-all hidden">
+      <p>Are you sure you want to clear all notes?</p>
+      <button id="confirm-clear-btn" class="confirm-clear-btn">Yes, clear all</button>
+      <button id="cancel-clear-btn" class="cancel-clear-btn">No, keep them</button>
+    </div>
+
+    <div id="new-note-view" class="hidden">
+      <h2>Create a new note</h2>
+      <input id="note-title" placeholder="Title" class="note-input" />
+      <input id="note-url" placeholder="Link (URL)" class="note-input" />
+      <div>
+        <label>Choose color</label>
+        <div id="color-palette" class="color-palette"></div>
+      </div>
+      <textarea id="note-text" rows="6" class="note-textarea"></textarea>
+      <button id="save-note">Save</button>
+      <button id="cancel-note">Cancel</button>
+    </div>
+
+    <div id="edit-Note">
+        <h2>Edit Note</h2>
+        <input id="edit-note-title" placeholder="Title" class="note-input" />
+        <input id="edit-note-url" placeholder="Link (URL)" class="note-input" />
+        <div>
+          <label>Choose color</label>
+          <div id="edit-color-palette" class="color-palette"></div>
+        </div>
+        <textarea id="edit-note-text" rows="6" class="note-textarea"></textarea>
+        <button id="update-note">Update</button>
+        <button id="cancel-edit">Cancel</button>
+    </div>
+
+    <div id="settings-view" class="hidden">
+      <h2>Settings</h2>
+      <label>
+        <input type="checkbox" id="auto-link-toggle" />
+        Auto-grab website link when creating notes
+      </label>
+      <button id="clear-notes" class="clear-notes">Clear all notes</button>
     </div>
   </div>
+
   <div class="footer-container" id="footer-container">
     <div class="footer" id="footer">
       <button class="home-button" id="home-button">Home</button>
