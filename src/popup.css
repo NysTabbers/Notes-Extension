@@ -1,12 +1,12 @@
 body {
-  width: 340px;
+  width: 360px;
   min-height: 400px;
   font-family: 'Comic Sans MS', 'Segoe Print', Arial, sans-serif;
   padding: 15px;
   margin: 0;
   background-color: #ddd0bb;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');  
-  padding-bottom: 50px; /* leave space for fixed footer */}
+  padding-bottom: 50px;}
 
 h1.title, h2, h3 {
   margin-top: 0;
@@ -14,8 +14,8 @@ h1.title, h2, h3 {
 }
 
 button {
-  margin-right: 20px;
-  padding: 10px 14px;
+  margin-right: 10px;
+  padding: 10px 10px;
   cursor: pointer;
   background-color: #ffcc33;
   border: 1px solid #b38f00;
@@ -27,6 +27,10 @@ button {
 button:hover{
   transform: scale(1.07) rotate(var(--rot,0deg));
   box-shadow: 0 5px 10px black;
+}
+
+.makeVoiceRecording{
+    margin-bottom: 15px;
 }
 
 .notes-container {
