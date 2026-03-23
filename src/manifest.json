@@ -2,11 +2,14 @@
   "manifest_version": 3,
   "name": "Notes Extension",
   "version": "1.1.0",
+
   "permissions": ["activeTab", "storage"],
+
   "action": {
     "default_popup": "popup.html",
     "default_title": "Notes Extension"
   },
+
   "browser_specific_settings": {
     "gecko": {
       "id": "notes-extension@example.com"

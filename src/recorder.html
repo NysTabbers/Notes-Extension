@@ -5,10 +5,12 @@
   <link rel="stylesheet" href="recorder.css">
 </head>
 <body>
+  <!-- Single centred card — layout handled by flexbox in recorder.css -->
   <div class="card">
     <h1>Microphone Permission</h1>
     <p class="subtitle">Your Notes Extension needs microphone access to record voice notes. This tab only needs to open once.</p>
 
+    <!-- Step-by-step instructions so the user knows what to expect from the browser prompt -->
     <div class="steps">
       <div class="step">
         <div class="step-number">1</div>
@@ -16,6 +18,7 @@
       </div>
       <div class="step">
         <div class="step-number">2</div>
+        <!-- "Remember this decision" is critical — without it this tab reopens every time -->
         <div class="step-text">Check <strong>"Remember this decision"</strong> so this tab never opens again</div>
       </div>
       <div class="step">
@@ -24,11 +27,15 @@
       </div>
     </div>
 
+    <!-- Extra callout reinforcing the "Remember" checkbox — it's easy to miss -->
     <div class="important">
       Make sure to check <strong>"Remember this decision"</strong> — otherwise this tab will open every single time you try to record.
     </div>
 
+    <!-- Triggers getUserMedia in recorder.js to show the browser permission dialog -->
     <button id="grantBtn">Grant Permission</button>
+
+    <!-- Updated by recorder.js to show success ("Permission granted!") or error text -->
     <p id="status"></p>
   </div>
 
