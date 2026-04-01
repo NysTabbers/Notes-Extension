@@ -1,9 +1,9 @@
 /* ============================================================
-   popup.css — Styles for the main extension popup (popup.html)
+   popup.css — Stijlen voor de hoofd-extensiepopup (popup.html)
    ============================================================ */
 
-/* Base body: fixed width matches Chrome/Firefox popup size constraints.
-   padding-bottom leaves space so content doesn't hide behind the fixed footer. */
+/* Basis body: vaste breedte past bij de groottebeperkingen van Chrome/Firefox-popups.
+   padding-bottom laat ruimte zodat inhoud niet achter de vaste footer verdwijnt. */
 body {
   width: 360px;
   min-height: 400px;
@@ -15,13 +15,13 @@ body {
   padding-bottom: 50px;
 }
 
-/* Strip default top margin from headings so they don't push content down */
+/* Verwijder standaard bovenmarge van koppen zodat ze inhoud niet naar beneden duwen */
 h1.title, h2, h3 {
   margin-top: 0;
   font-weight: normal;
 }
 
-/* Shared button style used across all views */
+/* Gedeelde knopstijl gebruikt in alle weergaven */
 button {
   margin-right: 10px;
   padding: 10px 10px;
@@ -33,20 +33,20 @@ button {
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-/* Slight scale + rotation on hover for a playful feel.
-   --rot is set per-element (e.g. sticky notes) to preserve any existing tilt. */
+/* Lichte schaal + rotatie bij hoveren voor een speels gevoel.
+   --rot wordt per element ingesteld (bijv. sticky-notities) om een eventuele bestaande kanteling te bewaren. */
 button:hover {
   transform: scale(1.07) rotate(var(--rot,0deg));
   box-shadow: 0 5px 10px black;
 }
 
-/* Extra bottom margin on the voice recorder button in the footer nav */
+/* Extra ondermarge op de spraakrecorderknop in de footernavigatie */
 .makeVoiceRecording {
   margin-bottom: 15px;
 }
 
-/* Grid layout for the home view's sticky note cards.
-   auto-fill with a fixed column width creates a naturally wrapping grid. */
+/* Rasteropmaak voor de sticky-notitiekaartjes in de startweergave.
+   auto-fill met een vaste kolombreedte creëert een natuurlijk afbrekend raster. */
 .notes-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, 130px);
@@ -59,9 +59,9 @@ button:hover {
   padding: 5px;
 }
 
-/* Individual sticky note card.
-   --bg is set inline by JS to apply the per-note chosen colour.
-   --rot is set inline by JS to give each card a slight random tilt. */
+/* Individueel sticky-notitiekaartje.
+   --bg wordt inline ingesteld door JS om de per-notitie gekozen kleur toe te passen.
+   --rot wordt inline ingesteld door JS om elk kaartje een lichte willekeurige kanteling te geven. */
 .note-sticky {
   width: 125px;
   height: 125px;
@@ -80,14 +80,14 @@ button:hover {
   transition: transform 0.2s;
 }
 
-/* Lift + scale on hover — preserves the card's existing tilt angle */
+/* Optillen + schalen bij hoveren — behoudt de bestaande kantelhoek van het kaartje */
 .note-sticky:hover {
   box-shadow: 0 6px 10px rgba(0,0,0,0.4);
   transform: scale(1.06) rotate(var(--rot,0deg));
 }
 
-/* Detail view card shown when a note is opened.
-   --note-bg and --note-border are set by JS to match the note's chosen colour. */
+/* Detailweergave-kaart getoond wanneer een notitie wordt geopend.
+   --note-bg en --note-border worden ingesteld door JS om de gekozen kleur van de notitie te matchen. */
 .note-detail-card {
   background: var(--note-bg, #fff);
   border: 2px solid var(--note-border, #ccc);
@@ -98,7 +98,7 @@ button:hover {
   font-family: inherit;
 }
 
-/* The clickable website URL link shown at the top of the detail card */
+/* De klikbare website-URL-link bovenaan de detailkaart */
 .note-detail-url {
   display: block;
   font-size: 12px;
@@ -108,8 +108,8 @@ button:hover {
   opacity: 0.8;
 }
 
-/* The body text area of a note in the detail view.
-   pre-wrap preserves any newlines the user typed. */
+/* Het bodytekstgebied van een notitie in de detailweergave.
+   pre-wrap behoudt eventuele regeleinden die de gebruiker heeft getypt. */
 .note-detail-text {
   margin: 0;
   font-size: 14px;
@@ -122,7 +122,7 @@ button:hover {
   margin-top: 14px;
 }
 
-/* Fixed footer nav bar — always visible at the bottom of the popup window */
+/* Vaste footer-navigatiebalk — altijd zichtbaar onderaan het popup-venster */
 .footer-container {
   position: fixed;
   bottom: 0;
@@ -136,7 +136,7 @@ button:hover {
   box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
 }
 
-/* Full-width input fields used in the note create and edit forms */
+/* Volledige-breedte invoervelden gebruikt in de formulieren voor aanmaken en bewerken van notities */
 .note-input {
   width: 100%;
   box-sizing: border-box;
@@ -146,12 +146,12 @@ button:hover {
   border-radius: 4px;
 }
 
-/* Utility class toggled by JS to show and hide views and dialogs */
+/* Hulpklasse die door JS wordt omgeschakeld om weergaven en dialoogvensters te tonen en verbergen */
 .hidden {
   display: none;
 }
 
-/* Full-width textarea for the note body text */
+/* Volledige-breedte tekstvak voor de bodytekst van de notitie */
 .note-textarea {
   width: 100%;
   border: 1px solid #ccc;
@@ -159,15 +159,15 @@ button:hover {
   border-radius: 4px;
 }
 
-/* Horizontal row of colour swatches in the note create/edit forms */
+/* Horizontale rij kleurvlakken in de formulieren voor aanmaken/bewerken van notities */
 .color-palette {
   display: flex;
   gap: 6px;
   margin: 6px 0 10px;
 }
 
-/* Individual colour swatch — transparent border by default,
-   black border added via .selected when this colour is chosen */
+/* Individueel kleurvlak — standaard transparante rand,
+   zwarte rand toegevoegd via .selected wanneer deze kleur is gekozen */
 .color-picker {
   width: 24px;
   height: 24px;
@@ -176,21 +176,21 @@ button:hover {
   box-sizing: border-box;
 }
 
-/* Black border indicates the currently selected colour swatch */
+/* Zwarte rand geeft het momenteel geselecteerde kleurvlak aan */
 .color-picker.selected {
   border-color: #000;
 }
 
-/* Destructive "Clear all notes" button — red colouring signals danger */
+/* Destructieve "Wis alle notities"-knop — rode kleur signaleert gevaar */
 .clear-notes {
   margin-top: 10px;
   background-color: #f88;
   border-color: #c00;
 }
 
-/* ── Confirmation dialogs ─────────────────────────────────────────────── */
+/* ── Bevestigingsdialoogvensters ─────────────────────────────────────────────── */
 
-/* Single-note delete confirmation — centred fixed card above the overlay */
+/* Bevestiging voor verwijderen van één notitie — gecentreerde vaste kaart boven de overlay */
 .confirm-delete {
   position: fixed;
   top: 50%;
@@ -206,7 +206,7 @@ button:hover {
   width: 240px;
 }
 
-/* Ensure display:block overrides the .hidden utility when the dialog is shown */
+/* Zorg dat display:block de .hidden-hulpklasse overschrijft wanneer het dialoogvenster wordt getoond */
 .confirm-delete:not(.hidden) {
   display: block;
 }
@@ -216,8 +216,8 @@ button:hover {
   font-size: 14px;
 }
 
-/* Semi-transparent backdrop behind any confirmation dialog.
-   z-index 99 sits just below the dialog card at z-index 100. */
+/* Halftransparante achtergrond achter elk bevestigingsdialoogvenster.
+   z-index 99 ligt net onder de dialoogkaart op z-index 100. */
 .confirm-overlay {
   position: fixed;
   top: 0;
@@ -232,7 +232,7 @@ button:hover {
   display: block;
 }
 
-/* "Clear all notes" confirmation — same layout as the single-delete dialog */
+/* Bevestiging voor "Wis alle notities" — zelfde opmaak als het dialoogvenster voor enkel verwijderen */
 .confirm-clear-all {
   position: fixed;
   top: 50%;
@@ -252,7 +252,7 @@ button:hover {
   display: block;
 }
 
-/* Bottom margin so the confirm button doesn't crowd the cancel button below it */
+/* Ondermarge zodat de bevestigingsknop niet de annuleerknop eronder verdringt */
 .confirm-clear-btn {
   margin-bottom: 20px;
 }

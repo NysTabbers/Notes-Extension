@@ -1,18 +1,18 @@
-// Cross-browser API compatibility shim.
-// Firefox exposes the WebExtensions API as `browser`, Chrome uses `chrome`.
-// This single variable lets the rest of the code work in both without branching.
+// Compatibiliteitsshim voor cross-browser API.
+// Firefox biedt de WebExtensions API aan als `browser`, Chrome gebruikt `chrome`.
+// Met deze variabele werkt de rest van de code in beide browsers zonder vertakkingen.
 const browserAPI = typeof browser !== "undefined" ? browser : chrome;
 
 // --------------------------------------------------------------------------
-// Storage helpers
-// All note data and settings are stored in chrome.storage.local rather than
-// localStorage. localStorage can be unreliable in extension popups and is not
-// shared across contexts. chrome.storage.local works correctly in both Chrome
-// and Firefox and persists across popup opens.
+// Opslaghulpfuncties
+// Alle notitigegevens en instellingen worden opgeslagen in chrome.storage.local
+// in plaats van localStorage. localStorage kan onbetrouwbaar zijn in extensie-popups
+// en wordt niet gedeeld tussen contexten. chrome.storage.local werkt correct in
+// zowel Chrome als Firefox en blijft bewaard na het sluiten van de popup.
 // --------------------------------------------------------------------------
 
-// Loads the notes array from storage and passes it to the callback.
-// Falls back to an empty array if nothing is stored yet or if data is corrupted.
+// Laadt de notitiesarray uit de opslag en geeft deze door aan de callback.
+// Valt terug op een lege array als er nog niets is opgeslagen of als de data corrupt is.
 function loadNotes(callback) {
   browserAPI.storage.local.get("notes", (result) => {
     try {
@@ -24,31 +24,31 @@ function loadNotes(callback) {
   });
 }
 
-// Persists the full notes array to storage.
-// The optional callback is called once the write completes — used to chain
-// actions like navigating back to the home view after a save.
+// Slaat de volledige notitiesarray op in de opslag.
+// De optionele callback wordt aangeroepen zodra het schrijven klaar is — gebruikt om
+// acties te koppelen, zoals terugnavigeren naar de startpagina na een opslag.
 function saveNotes(notes, callback) {
   browserAPI.storage.local.set({ notes }, () => {
     if (callback) callback();
   });
 }
 
-// Reads the auto-link setting from storage and passes a boolean to the callback.
-// Defaults to true if the setting has never been saved.
+// Leest de auto-link-instelling uit de opslag en geeft een boolean door aan de callback.
+// Standaard ingeschakeld als de instelling nog nooit is opgeslagen.
 function getAutoLinkSetting(callback) {
   browserAPI.storage.local.get("autoLink", (result) => {
-    // Treat anything other than an explicit `false` as enabled
+    // Behandel alles behalve een expliciete `false` als ingeschakeld
     callback(result.autoLink !== false);
   });
 }
 
-// Saves the auto-link preference (true/false) to storage.
+// Slaat de auto-link-voorkeur (true/false) op in de opslag.
 function setAutoLinkSetting(value) {
   browserAPI.storage.local.set({ autoLink: value });
 }
 
-// Queries the currently active tab and returns its URL via callback.
-// Uses browserAPI so it works in both Chrome and Firefox.
+// Vraagt de huidig actieve tab op en geeft de URL ervan terug via een callback.
+// Gebruikt browserAPI zodat het werkt in zowel Chrome als Firefox.
 function getCurrentTabUrl(callback) {
   browserAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     callback(tabs[0]?.url || "");
@@ -56,9 +56,9 @@ function getCurrentTabUrl(callback) {
 }
 
 // --------------------------------------------------------------------------
-// View management
-// The popup uses a single-page pattern — only one "view" div is visible at a
-// time. hideAllViews() clears everything before the desired view is shown.
+// Weergavebeheer
+// De popup gebruikt een single-page-patroon — slechts één "view"-div is tegelijk
+// zichtbaar. hideAllViews() verbergt alles voordat de gewenste weergave wordt getoond.
 // --------------------------------------------------------------------------
 
 function hideAllViews() {
@@ -74,11 +74,11 @@ function hideAllViews() {
 }
 
 // --------------------------------------------------------------------------
-// Colour utilities
+// Kleurhulpfuncties
 // --------------------------------------------------------------------------
 
-// Darkens a hex colour by subtracting `amount` from each RGB channel.
-// Used to derive a slightly darker border colour from a note's background colour.
+// Maakt een hex-kleur donkerder door `amount` af te trekken van elk RGB-kanaal.
+// Gebruikt om een iets donkerdere randkleur af te leiden van de achtergrondkleur van een notitie.
 function darkenColor(hex, amount = 40) {
   const num = parseInt(hex.replace("#", ""), 16);
   const r = Math.max(0, (num >> 16) - amount);
@@ -88,7 +88,7 @@ function darkenColor(hex, amount = 40) {
 }
 
 // --------------------------------------------------------------------------
-// Home view — displays all saved notes as a grid of sticky cards
+// Startweergave — toont alle opgeslagen notities als een raster van sticky-kaartjes
 // --------------------------------------------------------------------------
 
 function showHome() {
@@ -110,7 +110,7 @@ function showHome() {
       return;
     }
 
-    // Build a grid of sticky cards, one per note
+    // Bouw een raster van sticky-kaartjes, één per notitie
     const notesContainer = document.createElement("div");
     notesContainer.className = "notes-container";
 
@@ -118,9 +118,9 @@ function showHome() {
       const div = document.createElement("div");
       div.className = "note-sticky";
       div.textContent = note.title || "(no title)";
-      // Apply the note's saved colour via a CSS custom property
+      // Pas de opgeslagen kleur van de notitie toe via een CSS-aangepaste eigenschap
       if (note.color) div.style.setProperty("--bg", note.color);
-      // Clicking a card opens the full detail view for that note
+      // Klikken op een kaartje opent de volledige detailweergave voor die notitie
       div.addEventListener("click", () => showNoteAt(idx));
       notesContainer.appendChild(div);
     });
@@ -130,10 +130,10 @@ function showHome() {
 }
 
 // --------------------------------------------------------------------------
-// Delete note
+// Notitie verwijderen
 // --------------------------------------------------------------------------
 
-// Removes the note at `index` from the array, saves, and returns to home.
+// Verwijdert de notitie op `index` uit de array, slaat op en keert terug naar de startpagina.
 function deleteNoteAt(index) {
   loadNotes((notes) => {
     notes.splice(index, 1);
@@ -141,7 +141,7 @@ function deleteNoteAt(index) {
   });
 }
 
-// Shows the confirmation dialog before committing a delete.
+// Toont het bevestigingsvenster voordat een verwijdering wordt uitgevoerd.
 function confirmDeleteNoteAt(index) {
   const confirmDiv = document.getElementById("confirm-delete");
   confirmDiv.classList.remove("hidden");
@@ -150,8 +150,8 @@ function confirmDeleteNoteAt(index) {
   const confirmBtn = document.getElementById("confirm-delete-btn");
   const cancelBtn = document.getElementById("cancel-delete-btn");
 
-  // Use .onclick rather than addEventListener so that re-opening the dialog
-  // replaces the handler instead of stacking duplicate listeners
+  // Gebruik .onclick in plaats van addEventListener zodat het opnieuw openen van het venster
+  // de handler vervangt in plaats van dubbele listeners te stapelen
   confirmBtn.onclick = () => {
     deleteNoteAt(index);
   };
@@ -162,16 +162,16 @@ function confirmDeleteNoteAt(index) {
 }
 
 // --------------------------------------------------------------------------
-// Colour palette widget
-// Renders a row of colour swatches inside the element with id `containerId`.
-// Returns a { getColor() } object so the caller can read the current selection.
+// Kleurenpalet-widget
+// Tekent een rij kleurvlakken binnen het element met id `containerId`.
+// Geeft een { getColor() }-object terug zodat de aanroeper de huidige selectie kan lezen.
 // --------------------------------------------------------------------------
 
 function setupColorPalette(
   containerId,
   colors = ["#fffa65", "#ffd3b4", "#baffc9", "#ffb3ba", "#bde0fe", "#ffffff"],
 ) {
-  let selected = colors[0]; // Default to the first colour in the list
+  let selected = colors[0]; // Standaard de eerste kleur in de lijst
   const paletteDiv = document.getElementById(containerId);
 
   colors.forEach((c) => {
@@ -181,7 +181,7 @@ function setupColorPalette(
     swatch.dataset.color = c;
     swatch.addEventListener("click", () => {
       selected = c;
-      // Toggle the "selected" highlight border across all swatches
+      // Schakel de "geselecteerd"-markering tussen alle vlakken
       paletteDiv
         .querySelectorAll(".color-picker")
         .forEach((s) => s.classList.toggle("selected", s === swatch));
@@ -194,12 +194,12 @@ function setupColorPalette(
 }
 
 // --------------------------------------------------------------------------
-// New note view
+// Nieuwe-notitie-weergave
 // --------------------------------------------------------------------------
 
-// Wires up the Save button for the new note form.
-// The button is cloned and replaced each time this runs to prevent duplicate
-// event listeners accumulating across multiple visits to this view.
+// Koppelt de Opslaan-knop aan het formulier voor nieuwe notities.
+// De knop wordt gekloond en vervangen elke keer dat dit wordt uitgevoerd om te voorkomen
+// dat event-listeners zich opstapelen bij meerdere bezoeken aan deze weergave.
 function attachSaveHandler(palette) {
   const saveBtn = document.getElementById("save-note");
   const freshSaveBtn = saveBtn.cloneNode(true);
@@ -209,7 +209,7 @@ function attachSaveHandler(palette) {
     const title = document.getElementById("note-title").value.trim();
     const url = document.getElementById("note-url").value.trim();
     const text = document.getElementById("note-text").value.trim();
-    // Require at least a title or body text before allowing a save
+    // Vereist minstens een titel of bodytekst voordat opslaan is toegestaan
     if (!text && !title) return;
     const color = (palette && palette.getColor()) || "#ffffff";
     loadNotes((notes) => {
@@ -221,8 +221,8 @@ function attachSaveHandler(palette) {
   document.getElementById("cancel-note").addEventListener("click", showHome);
 }
 
-// If the auto-link setting is enabled, fills the specified URL input field
-// with the current tab's URL, saving the user a manual copy-paste.
+// Als de auto-link-instelling is ingeschakeld, vult het opgegeven URL-invoerveld
+// automatisch met de URL van het huidige tabblad, zodat de gebruiker niet handmatig hoeft te kopiëren.
 function autoFillUrlField(fieldID) {
   getAutoLinkSetting((enabled) => {
     if (!enabled) return;
@@ -238,12 +238,12 @@ function showNewNote() {
   document.getElementById("title").textContent = "Create note";
   document.getElementById("new-note-view").classList.remove("hidden");
 
-  // Clear any values left over from a previous visit to this view
+  // Wis alle waarden die zijn achtergebleven van een vorig bezoek aan deze weergave
   document.getElementById("note-title").value = "";
   document.getElementById("note-url").value = "";
   document.getElementById("note-text").value = "";
 
-  // Re-render the palette so the selection resets to the default colour
+  // Herrender het palet zodat de selectie terugvalt op de standaardkleur
   const paletteDiv = document.getElementById("color-palette");
   paletteDiv.innerHTML = "";
   const palette = setupColorPalette("color-palette");
@@ -253,26 +253,26 @@ function showNewNote() {
 }
 
 // --------------------------------------------------------------------------
-// Voice note view
+// Spraaknotitie-weergave
 // --------------------------------------------------------------------------
 
 function newVoiceNote() {
-  // navigator.permissions.query({ name: "microphone" }) is not supported in
-  // Firefox, so we skip it entirely and call getUserMedia directly.
-  // If permission is denied, the catch block handles it instead.
+  // navigator.permissions.query({ name: "microphone" }) wordt niet ondersteund in
+  // Firefox, dus we slaan het volledig over en roepen getUserMedia direct aan.
+  // Als toestemming wordt geweigerd, handelt het catch-blok dit af.
   navigator.mediaDevices
     .getUserMedia({ audio: true })
     .then((stream) => {
       hideAllViews();
 
       const mediaRecorder = new MediaRecorder(stream);
-      // Guard flag prevents the user from double-starting or double-stopping
+      // Bewakingsvlag voorkomt dat de gebruiker dubbel start of stopt
       let isRecording = false;
 
       document.getElementById("voiceRecording").classList.remove("hidden");
 
-      // Use the voice note's own palette container — not the edit note's palette,
-      // which shares the same DOM but would be the wrong element
+      // Gebruik de eigen paletcontainer van de spraaknotitie — niet het palet van de
+      // bewerk-weergave, die hetzelfde DOM deelt maar het verkeerde element zou zijn
       const paletteDiv = document.getElementById("color-palette-voice-note");
       paletteDiv.innerHTML = "";
       const palette = setupColorPalette("color-palette-voice-note");
@@ -281,46 +281,56 @@ function newVoiceNote() {
 
       const startBtn = document.getElementById("startRecording");
       const stopBtn = document.getElementById("stopRecording");
-      // Stop starts disabled so the user must press Start first
+      // Stop begint uitgeschakeld zodat de gebruiker eerst op Start moet drukken
       stopBtn.disabled = true;
 
       startBtn.onclick = () => {
-        if (isRecording) return; // Prevent double-start
+        if (isRecording) return; // Voorkom dubbel starten
         isRecording = true;
         startBtn.disabled = true;
         stopBtn.disabled = false;
-        document.getElementById("recording-status").textContent = "🔴 Recording...";
+        document.getElementById("recording-status").textContent =
+          "Recording...";
         mediaRecorder.start();
       };
 
       stopBtn.onclick = () => {
-        if (!isRecording) return; // Prevent double-stop
+        if (!isRecording) return; // Voorkom dubbel stoppen
         isRecording = false;
-        document.getElementById("recording-status").textContent = "⏳ Saving...";
+        document.getElementById("recording-status").textContent =
+          "Saving...";
         mediaRecorder.stop();
-        // Release the microphone immediately — don't hold it after recording ends
+        // Geef de microfoon direct vrij — houd hem niet vast nadat de opname eindigt
         stream.getTracks().forEach((track) => track.stop());
       };
 
-      // ondataavailable fires once after mediaRecorder.stop() with the full blob
+      // ondataavailable wordt eenmaal aangeroepen na mediaRecorder.stop() met de volledige blob
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size === 0) return;
 
-        // Blob URLs are temporary and tied to the current page session — they
-        // become invalid when the popup closes. We convert to a Base64 data URL
-        // so the audio can be stored persistently and played back later.
+        // Blob-URL's zijn tijdelijk en gekoppeld aan de huidige paginasessie — ze worden
+        // ongeldig wanneer de popup sluit. We converteren naar een Base64-data-URL
+        // zodat de audio duurzaam kan worden opgeslagen en later afgespeeld.
         const reader = new FileReader();
         reader.onloadend = () => {
-          const base64Audio = reader.result; // e.g. "data:audio/webm;base64,..."
+          const base64Audio = reader.result; // bijv. "data:audio/webm;base64,..."
           const title =
             document.getElementById("audio-note-title").value.trim() ||
             "Voice Note";
-          // `url` stores the page link; `audioUrl` stores the audio data separately
-          // so they never overwrite each other
-          const pageUrl = document.getElementById("audio-note-url").value.trim();
+          // `url` slaat de paginalink op; `audioUrl` slaat de audiodata apart op
+          // zodat ze elkaar nooit overschrijven
+          const pageUrl = document
+            .getElementById("audio-note-url")
+            .value.trim();
           const color = palette.getColor();
           loadNotes((notes) => {
-            notes.push({ title, url: pageUrl, audioUrl: base64Audio, text: "", color });
+            notes.push({
+              title,
+              url: pageUrl,
+              audioUrl: base64Audio,
+              text: "",
+              color,
+            });
             saveNotes(notes, showHome);
           });
         };
@@ -328,18 +338,20 @@ function newVoiceNote() {
       };
     })
     .catch((err) => {
-      // getUserMedia failed — either permission denied or no mic available.
-      // Open the dedicated permission helper page as a fallback.
+      // getUserMedia mislukt — toestemming geweigerd of geen microfoon beschikbaar.
+      // Open de speciale toestemmingshelperpagina als terugvaloptie.
       console.error("Error accessing microphone", err);
-      browserAPI.tabs.create({ url: browserAPI.runtime.getURL("recorder.html") });
+      browserAPI.tabs.create({
+        url: browserAPI.runtime.getURL("recorder.html"),
+      });
     });
 }
 
 // --------------------------------------------------------------------------
-// Clear all notes
+// Alle notities wissen
 // --------------------------------------------------------------------------
 
-// Shows a confirmation dialog before wiping all notes from storage.
+// Toont een bevestigingsvenster voordat alle notities uit de opslag worden verwijderd.
 function confirmClearAll() {
   const confirmDiv = document.getElementById("confirm-clear-all");
   confirmDiv.classList.remove("hidden");
@@ -349,7 +361,7 @@ function confirmClearAll() {
   const cancelBtn = document.getElementById("cancel-clear-btn");
 
   confirmBtn.onclick = () => {
-    saveNotes([], showHome); // Overwrite storage with an empty array
+    saveNotes([], showHome); // Overschrijf de opslag met een lege array
   };
   cancelBtn.onclick = () => {
     confirmDiv.classList.add("hidden");
@@ -358,7 +370,7 @@ function confirmClearAll() {
 }
 
 // --------------------------------------------------------------------------
-// Settings view
+// Instellingenweergave
 // --------------------------------------------------------------------------
 
 function showSettings() {
@@ -366,8 +378,8 @@ function showSettings() {
   document.getElementById("title").textContent = "Settings";
   document.getElementById("settings-view").classList.remove("hidden");
 
-  // Read the current auto-link setting asynchronously, then wire up the checkbox.
-  // The checkbox element is cloned to prevent listener accumulation across visits.
+  // Lees de huidige auto-link-instelling asynchroon en koppel vervolgens het selectievakje.
+  // Het selectievakje-element wordt gekloond om opeenstapeling van listeners bij herhaalde bezoeken te voorkomen.
   getAutoLinkSetting((enabled) => {
     const checkbox = document.getElementById("auto-link-toggle");
     const freshCheckbox = checkbox.cloneNode(true);
@@ -378,7 +390,7 @@ function showSettings() {
     );
   });
 
-  // Clone the clear button for the same reason as the checkbox above
+  // Kloon de wisknop om dezelfde reden als het selectievakje hierboven
   const clearBtn = document.getElementById("clear-notes");
   const freshClear = clearBtn.cloneNode(true);
   clearBtn.replaceWith(freshClear);
@@ -386,11 +398,11 @@ function showSettings() {
 }
 
 // --------------------------------------------------------------------------
-// Note detail view
+// Notitiedetailweergave
 // --------------------------------------------------------------------------
 
-// Shows the full content of the note at `index`.
-// Voice notes render an <audio> player element; text notes render body text.
+// Toont de volledige inhoud van de notitie op `index`.
+// Spraaknotities tonen een <audio>-speler; tekstnotities tonen de bodytekst.
 function showNoteAt(index) {
   loadNotes((notes) => {
     const note = notes[index];
@@ -402,7 +414,7 @@ function showNoteAt(index) {
     titleEl.textContent = note.title || "(no title)";
     titleEl.className = "title";
 
-    // Apply the note's colour to the detail card via CSS custom properties
+    // Pas de kleur van de notitie toe op de detailkaart via CSS-aangepaste eigenschappen
     const detailView = document.getElementById("note-detail-view");
     detailView.style.setProperty("--note-bg", note.color || "#fff");
     detailView.style.setProperty(
@@ -410,7 +422,7 @@ function showNoteAt(index) {
       note.color ? darkenColor(note.color) : "#ccc",
     );
 
-    // Show the associated website URL as a clickable link, or hide it entirely
+    // Toon de bijbehorende website-URL als klikbare link, of verberg hem volledig
     const urlEl = document.getElementById("detail-url");
     if (note.url) {
       urlEl.href = note.url;
@@ -423,7 +435,7 @@ function showNoteAt(index) {
     const textEl = document.getElementById("detail-text");
 
     if (note.audioUrl) {
-      // Voice note: inject an <audio> player pointing at the stored Base64 data URL
+      // Spraaknotitie: voeg een <audio>-speler in die verwijst naar de opgeslagen Base64-data-URL
       textEl.innerHTML = "";
       const audio = document.createElement("audio");
       audio.controls = true;
@@ -433,14 +445,14 @@ function showNoteAt(index) {
       textEl.appendChild(audio);
       textEl.classList.remove("hidden");
     } else if (note.text) {
-      // Text note: render the body text
+      // Tekstnotitie: render de bodytekst
       textEl.textContent = note.text;
       textEl.classList.remove("hidden");
     } else {
       textEl.classList.add("hidden");
     }
 
-    // Assign action button handlers with the current note's index captured
+    // Wijs actieknoppen handlers toe met de huidige notitie-index vastgelegd
     document.getElementById("detail-back").onclick = showHome;
     document.getElementById("detail-delete").onclick = () =>
       confirmDeleteNoteAt(index);
@@ -451,7 +463,7 @@ function showNoteAt(index) {
 }
 
 // --------------------------------------------------------------------------
-// Edit note view
+// Notitie bewerken weergave
 // --------------------------------------------------------------------------
 
 function editNoteAt(index) {
@@ -463,12 +475,12 @@ function editNoteAt(index) {
     document.getElementById("title").textContent = "Edit Note";
     document.getElementById("edit-Note").classList.remove("hidden");
 
-    // Pre-fill the form fields with the note's existing values
+    // Vul de formuliervelden vooraf in met de bestaande waarden van de notitie
     document.getElementById("edit-note-title").value = note.title || "";
     document.getElementById("edit-note-url").value = note.url || "";
     document.getElementById("edit-note-text").value = note.text || "";
 
-    // Re-render the palette fresh so it resets to the default colour selection
+    // Herrender het palet zodat de standaardkleursel teruggezet wordt
     const paletteDiv = document.getElementById("edit-color-palette");
     paletteDiv.innerHTML = "";
     const palette = setupColorPalette("edit-color-palette");
@@ -478,7 +490,7 @@ function editNoteAt(index) {
       const url = document.getElementById("edit-note-url").value.trim();
       const text = document.getElementById("edit-note-text").value.trim();
       if (!text && !title) return;
-      // Mutate the note object in-place, then write the whole array back to storage
+      // Pas het notitieobject in-place aan en schrijf vervolgens de volledige array terug naar de opslag
       note.title = title;
       note.url = url;
       note.text = text;
@@ -491,7 +503,7 @@ function editNoteAt(index) {
 }
 
 // --------------------------------------------------------------------------
-// Initialisation — runs once when the popup DOM is fully loaded
+// Initialisatie — wordt eenmalig uitgevoerd wanneer de popup-DOM volledig is geladen
 // --------------------------------------------------------------------------
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -506,6 +518,6 @@ window.addEventListener("DOMContentLoaded", () => {
     .getElementById("setting-button")
     .addEventListener("click", showSettings);
 
-  // Render the home view immediately when the popup opens
+  // Render de startweergave direct wanneer de popup opent
   showHome();
 });

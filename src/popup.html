@@ -7,19 +7,19 @@
 </head>
 
 <body>
-    <!-- Main container — all views live inside here -->
+    <!-- Hoofdcontainer — alle weergaven leven hierin -->
     <div class="container" id="container">
 
-        <!-- Page title — text content is swapped by JS depending on the active view -->
+        <!-- Paginatitel — tekstinhoud wordt gewisseld door JS afhankelijk van de actieve weergave -->
         <h1 class="title" id="title">My Notes</h1>
 
-        <!-- HOME VIEW: grid of sticky note cards, built dynamically by showHome() -->
+        <!-- STARTWEERGAVE: raster van sticky-notitiekaartjes, dynamisch opgebouwd door showHome() -->
         <div id="home-view">
             <div class="note-content" id="note-content"></div>
         </div>
 
-        <!-- NOTE DETAIL VIEW: shows full content of a single note when a card is clicked.
-             Hidden by default; JS removes "hidden" when a note is opened. -->
+        <!-- NOTITIEDETAILWEERGAVE: toont volledige inhoud van één notitie wanneer op een kaartje wordt geklikt.
+             Standaard verborgen; JS verwijdert "hidden" wanneer een notitie wordt geopend. -->
         <div id="note-detail-view" class="note-detail-card hidden">
             <a id="detail-url" class="note-detail-url" target="_blank"></a>
             <p id="detail-text" class="note-detail-text"></p>
@@ -28,31 +28,31 @@
             <button id="detail-delete" class="delete-button">Delete</button>
         </div>
 
-        <!-- CONFIRM DELETE DIALOG: overlaid when the user clicks Delete on a note -->
+        <!-- BEVESTIG VERWIJDEREN-DIALOOG: getoond wanneer de gebruiker op Verwijderen klikt bij een notitie -->
         <div id="confirm-delete" class="confirm-delete hidden">
             <p>Are you sure you want to delete this note?</p>
             <button id="confirm-delete-btn">Yes, delete</button>
             <button id="cancel-delete-btn">No, keep it</button>
         </div>
 
-        <!-- Semi-transparent backdrop shown behind any confirmation dialog -->
+        <!-- Halftransparante achtergrond getoond achter elk bevestigingsdialoogvenster -->
         <div id="confirm-overlay" class="confirm-overlay hidden"></div>
 
-        <!-- CONFIRM CLEAR ALL DIALOG: overlaid when "Clear all notes" is clicked in settings -->
+        <!-- BEVESTIG ALLES WISSEN-DIALOOG: getoond wanneer "Wis alle notities" wordt geklikt in instellingen -->
         <div id="confirm-clear-all" class="confirm-clear-all hidden">
             <p>Are you sure you want to clear all notes?</p>
             <button id="confirm-clear-btn" class="confirm-clear-btn">Yes, clear all</button>
             <button id="cancel-clear-btn" class="cancel-clear-btn">No, keep them</button>
         </div>
 
-        <!-- NEW NOTE VIEW: form for creating a text note -->
+        <!-- NIEUWE NOTITIE WEERGAVE: formulier voor het aanmaken van een tekstnotitie -->
         <div id="new-note-view" class="hidden">
             <h2>Create a new note</h2>
             <input id="note-title" placeholder="Title" class="note-input" />
             <input id="note-url" placeholder="Link (URL)" class="note-input" />
             <div>
                 <label>Choose color</label>
-                <!-- Colour swatches are injected here dynamically by setupColorPalette() -->
+                <!-- Kleurvlakken worden hier dynamisch ingevoegd door setupColorPalette() -->
                 <div id="color-palette" class="color-palette"></div>
             </div>
             <textarea id="note-text" rows="6" class="note-textarea"></textarea>
@@ -60,25 +60,25 @@
             <button id="cancel-note">Cancel</button>
         </div>
 
-        <!-- VOICE NOTE VIEW: form for recording and saving a voice note -->
+        <!-- SPRAAKNOTITIE WEERGAVE: formulier voor het opnemen en opslaan van een spraaknotitie -->
         <div id="voiceRecording" class="hidden">
             <h2>Create new voice note</h2>
             <input id="audio-note-title" placeholder="Title" class="note-input" />
-            <!-- Auto-filled with the current tab URL if auto-link setting is enabled -->
+            <!-- Automatisch gevuld met de URL van het huidige tabblad als de auto-link-instelling is ingeschakeld -->
             <input id="audio-note-url" placeholder="Link (URL)" class="note-input" />
             <div>
                 <label>Choose color</label>
-                <!-- Separate palette container from the edit view to avoid ID conflicts -->
+                <!-- Aparte paletcontainer van de bewerk-weergave om ID-conflicten te vermijden -->
                 <div id="color-palette-voice-note" class="color-palette"></div>
             </div>
-            <!-- Status label updated by JS: displays "🔴 Recording..." or "⏳ Saving..." -->
+            <!-- Statuslabel bijgewerkt door JS: toont "🔴 Opname bezig..." of "⏳ Opslaan..." -->
             <p id="recording-status" style="font-size:13px; margin: 6px 0;"></p>
             <button id="startRecording" class="startRecording">Start Recording</button>
-            <!-- Starts disabled; JS enables it once recording has begun -->
+            <!-- Begint uitgeschakeld; JS schakelt het in zodra de opname is gestart -->
             <button id="stopRecording" class="stopRecording" disabled>Stop Recording</button>
         </div>
 
-        <!-- EDIT NOTE VIEW: pre-filled form for updating an existing note -->
+        <!-- NOTITIE BEWERKEN WEERGAVE: vooraf ingevuld formulier voor het bijwerken van een bestaande notitie -->
         <div id="edit-Note" class="hidden">
             <h2>Edit Note</h2>
             <input id="edit-note-title" placeholder="Title" class="note-input" />
@@ -92,7 +92,7 @@
             <button id="cancel-edit-note">Cancel</button>
         </div>
 
-        <!-- SETTINGS VIEW: auto-link toggle and destructive clear-all button -->
+        <!-- INSTELLINGEN WEERGAVE: auto-link-schakelaar en destructieve wis-alles-knop -->
         <div id="settings-view" class="hidden">
             <h2>Settings</h2>
             <label>
@@ -104,7 +104,7 @@
 
     </div>
 
-    <!-- FOOTER NAV: fixed at the bottom, always visible regardless of active view -->
+    <!-- FOOTER NAV: vast onderaan, altijd zichtbaar ongeacht de actieve weergave -->
     <div class="footer-container" id="footer-container">
         <div class="footer" id="footer">
             <button class="home-button" id="home-button">Home</button>

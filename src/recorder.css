@@ -1,10 +1,10 @@
 /* ============================================================
-   recorder.css — Styles for the mic permission helper page (recorder.html)
-   This page opens as a full browser tab when getUserMedia fails in the popup
-   (e.g. first-time permission request on Firefox).
+   recorder.css — Stijlen voor de microfoontoestemmingshelperpagina (recorder.html)
+   Deze pagina opent als een volledig browsertabblad wanneer getUserMedia mislukt in de popup
+   (bijv. eerste toestemmingsverzoek op Firefox).
    ============================================================ */
 
-/* Centre the card both vertically and horizontally in the full viewport */
+/* Centreer de kaart zowel verticaal als horizontaal in de volledige viewport */
 body {
   font-family: 'Comic Sans MS', 'Segoe Print', Arial, sans-serif;
   margin: 0;
@@ -17,7 +17,7 @@ body {
   justify-content: center;
 }
 
-/* Main content card — max-width keeps it readable on wide screens */
+/* Hoofdinhoudskaart — max-breedte zorgt voor leesbaarheid op brede schermen */
 .card {
   background: #fffdf0;
   border: 1px solid #e0d5bb;
@@ -36,7 +36,7 @@ h1 {
   color: #2a1f00;
 }
 
-/* Short explanatory text below the page heading */
+/* Korte verklarende tekst onder de paginakop */
 .subtitle {
   font-size: 14px;
   color: #5a4a2a;
@@ -44,7 +44,7 @@ h1 {
   margin-bottom: 24px;
 }
 
-/* Numbered steps box explaining what the user needs to do */
+/* Genummerde stappenbox die uitlgt wat de gebruiker moet doen */
 .steps {
   background: #f5ecd8;
   border: 1px solid #d4c4a0;
@@ -65,7 +65,7 @@ h1 {
   margin-bottom: 0;
 }
 
-/* Circular yellow badge showing the step number */
+/* Cirkelvormige gele badge met het stapnummer */
 .step-number {
   background: #ffcc33;
   border: 1px solid #b38f00;
@@ -78,7 +78,7 @@ h1 {
   justify-content: center;
   font-size: 13px;
   font-weight: bold;
-  flex-shrink: 0; /* Prevent the badge from shrinking on narrow viewports */
+  flex-shrink: 0; /* Voorkom dat de badge kleiner wordt op smalle viewports */
 }
 
 .step-text {
@@ -88,7 +88,7 @@ h1 {
   padding-top: 2px;
 }
 
-/* Highlighted warning reminding the user to tick "Remember this decision" */
+/* Gemarkeerde waarschuwing die de gebruiker eraan herinnert "Onthoud deze beslissing" aan te vinken */
 .important {
   background: #fff3cd;
   border: 1px solid #b38f00;
@@ -101,7 +101,7 @@ h1 {
   text-align: left;
 }
 
-/* Full-width grant permission button */
+/* Volledige-breedte knop om toestemming te verlenen */
 button {
   cursor: pointer;
   background-color: #ffcc33;
@@ -114,19 +114,19 @@ button {
   width: 100%;
 }
 
-/* Hover effect only applies when the button is not disabled */
+/* Hover-effect is alleen van toepassing wanneer de knop niet uitgeschakeld is */
 button:hover:not(:disabled) {
   transform: scale(1.03);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Greyed out while the browser permission prompt is open */
+/* Grijs weergegeven terwijl de browsertoestemmingsprompt open is */
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Status message shown below the button, updated by recorder.js */
+/* Statusbericht getoond onder de knop, bijgewerkt door recorder.js */
 #status {
   margin-top: 14px;
   font-size: 13px;
@@ -135,12 +135,12 @@ button:disabled {
   line-height: 1.5;
 }
 
-/* Green text shown on successful permission grant */
+/* Groene tekst getoond bij succesvolle toestemmingsverlening */
 #status.success {
   color: #2e7d52;
 }
 
-/* Red text shown if the user denies the permission prompt */
+/* Rode tekst getoond als de gebruiker de toestemmingsprompt weigert */
 #status.error {
   color: #c00;
 }
